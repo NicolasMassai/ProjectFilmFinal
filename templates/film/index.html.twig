@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FilmController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+
+<h1>Liste des film</h1>
+
+    <nav>
+        <ul>
+            <a href="{{ path('app_film_create') }}">Ajouter un film</a>
+        </ul>
+    </nav>
+
+   {% for film in films %}
+        <ul>
+            <li>Titre : {{film.nom}}</li>
+            <li>Distribution : {{film.distribution}}</li>
+            <li>Durée : {{film.duree}} min</li>
+            <li>Prix : {{film.prix}} €</li>
+            <li>Genre : {{film.genre}}</li>
+            <li>Note : {{film.note}}/20</li>
+            <form action="{{ path('app_film_update', {"film": film.id}) }}" method="post">
+                <button type="submit">Modifier</button>
+            </form>
+            <form action="{{ path('app_film_id', {"film": film.id}) }}" method="post">
+                <button type="submit">Afficher Détails</button>
+            </form>
+            <br>
+        </ul>
+    {% endfor %}
+{% endblock %}
