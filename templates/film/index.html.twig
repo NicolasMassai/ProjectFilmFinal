@@ -8,9 +8,15 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+    <nav>
+        <ul>
+            <a href="{{ path('app_home') }}">← Home</a>
+        </ul>
+    </nav>
+
 <div class="example-wrapper">
 
-<h1>Liste des film</h1>
+<h1>Liste des Films</h1>
 
     <nav>
         <ul>
@@ -21,11 +27,7 @@
    {% for film in films %}
         <ul>
             <li>Titre : {{film.nom}}</li>
-            <li>Distribution : {{film.distribution}}</li>
-            <li>Durée : {{film.duree}} min</li>
             <li>Prix : {{film.prix}} €</li>
-            <li>Genre : {{film.genre}}</li>
-            <li>Note : {{film.note}}/20</li>
             <form action="{{ path('app_film_update', {"film": film.id}) }}" method="post">
                 <button type="submit">Modifier</button>
             </form>

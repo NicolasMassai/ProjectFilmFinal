@@ -69,11 +69,10 @@ class FilmRepository extends ServiceEntityRepository
     
         $em = $this->getEntityManager();
     
-        $query = $em->createQuery('SELECT f FROM App\Entity\Film f WHERE f.note ORDER BY f.note DESC');
-        $query->setParameter('genre', '');
+        $query = $em->createQuery('SELECT f FROM App\Entity\Film f ORDER BY f.note DESC');
     
         $result = $query->getResult();
-        dd($result);
+        //dd($result);
         
         return $result;
     }

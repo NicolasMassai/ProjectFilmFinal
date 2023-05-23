@@ -134,7 +134,7 @@ class FilmController extends AbstractController
        ]);
    }
 
-  /* #[Route('/film/classement', name: 'app_film_classement')]
+   #[Route('/film/classement', name: 'app_film_classement')]
    public function classement(FilmRepository $filmrepository): Response
    {
 
@@ -144,5 +144,5 @@ class FilmController extends AbstractController
         'films' => $film,
        ]);
    }
-*/
+
 }
