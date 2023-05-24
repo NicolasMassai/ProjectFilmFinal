@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Film;
 use App\Form\FilmType;
 use App\Service\Service;
+use App\Model\SearchData;
 use App\Entity\Producteur;
 use App\Repository\FilmRepository;
 use App\Repository\ProducteurRepository;
@@ -13,7 +14,9 @@ use Symfony\Component\String\ByteString;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class FilmController extends AbstractController
 {
@@ -26,17 +29,42 @@ class FilmController extends AbstractController
     {
         $this->em = $em;
     }
+    
     #[Route('/film', name: 'app_film')]
-    public function index(FilmRepository $filmrepository): Response
+    #[IsGranted('ROLE_USER')]
+    public function index(FilmRepository $filmrepository, FilmRepository $postRepository,
+        Request $request): Response
     {
-        $films = $filmrepository->findAll();
+        //$films = $filmrepository->findAll();
         
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($searchData);
+            /*
+            $searchData->page = $request->query->getInt('page', 1);
+            $posts = $postRepository->findBySearch($searchData);
+
+            return $this->render('film/index.html.twig', [
+                'form' => $form->createView(),
+                'posts' => $posts
+            ]);
+        */}
+        $films = $filmrepository->findAll();
 
         return $this->render('film/index.html.twig', [
             'films' => $films,
+            'form' => $form->createView(),
+            'posts' => $postRepository->find($request->query->getInt('page', 1))
         ]);
     }
+
+       
+    
     #[Route('/film/find/{film}', name: 'app_film_id')]
+    #[IsGranted('ROLE_USER')]
     public function getId(Film $film, FilmRepository $filmrepository, ProducteurRepository $producteurrepository): Response
     {
 
@@ -56,6 +84,7 @@ class FilmController extends AbstractController
     }
 
     #[Route('/film/create', name: 'app_film_create')]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Service $myService, Request $request): Response
 
     {
@@ -67,6 +96,7 @@ class FilmController extends AbstractController
 
 
     #[Route('/film/update/{film}', name: 'app_film_update')]
+    #[IsGranted('ROLE_ADMIN')]
     public function update(Film $film, Request $request): Response
     {
         $form = $this->createForm(FilmType::class, $film);
@@ -144,5 +174,8 @@ class FilmController extends AbstractController
         'films' => $film,
        ]);
    }
+
+    
+
 
 }

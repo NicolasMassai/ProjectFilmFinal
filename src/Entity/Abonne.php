@@ -19,9 +19,9 @@ class Abonne
     #[ORM\OneToOne(inversedBy: 'abonne', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
+/*
     #[ORM\OneToOne(mappedBy: 'abonne', cascade: ['persist', 'remove'])]
-    private ?Bank $bank = null;
+    private ?Bank $bank = null;*/
 
     public function getId(): ?int
     {
@@ -51,7 +51,8 @@ class Abonne
 
         return $this;
     }
-
+    
+/*
     public function getBank(): ?Bank
     {
         return $this->bank;
@@ -67,5 +68,5 @@ class Abonne
         $this->bank = $bank;
 
         return $this;
-    }
+    }*/
 }
