@@ -31,7 +31,7 @@ class FilmController extends AbstractController
     }
     
     #[Route('/film', name: 'app_film')]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted("ROLE_USER")]
     public function index(FilmRepository $filmrepository, FilmRepository $postRepository,
         Request $request): Response
     {

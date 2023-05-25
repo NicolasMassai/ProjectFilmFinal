@@ -6,17 +6,14 @@ use App\Entity\Bank;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BankType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('account', NumberType::class, [
-                'html5' => true,
-                'attr' => ['type' => 'number']
-            ])
-            ->add('abonne')
+            ->add('account')
             ->add('Ajouter',SubmitType::class)
 
         ;

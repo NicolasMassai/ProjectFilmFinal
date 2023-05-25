@@ -33,7 +33,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Producteur $producteur = null;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Abonne $abonne = null;
+    private ?Bank $bank = null;
+
 
     public function getId(): ?int
     {
@@ -122,23 +123,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAbonne(): ?Abonne
-    {
-        return $this->abonne;
-    }
-
-    public function setAbonne(Abonne $abonne): self
-    {
-        // set the owning side of the relation if necessary
-        if ($abonne->getUser() !== $this) {
-            $abonne->setUser($this);
-        }
-
-        $this->abonne = $abonne;
-
-        return $this;
-    }
     public function __toString(){
         return $this->email; // Remplacer champ par une propriété "string" de l'entité
     }
+
+    public function getBank(): ?Bank
+    {
+        return $this->bank;
+    }
+
+    public function setBank(Bank $bank): self
+    {
+        // set the owning side of the relation if necessary
+        if ($bank->getUser() !== $this) {
+            $bank->setUser($this);
+        }
+
+        $this->bank = $bank;
+
+        return $this;
+    }
+
 }

@@ -30,6 +30,10 @@
         </ul>
     </nav>
 
-    
+    <nav>
+        <a href="{{ path('app_bank') }}">Modifier mon solde</a>
+    </nav>
+        <h2>Solde : {{ user.bank.account }} €</h2>
 </div>
+
 {% endblock %}

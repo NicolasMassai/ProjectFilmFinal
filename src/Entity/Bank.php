@@ -18,7 +18,7 @@ class Bank
 
     #[ORM\OneToOne(inversedBy: 'bank', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?abonne $abonne = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -37,14 +37,14 @@ class Bank
         return $this;
     }
 
-    public function getAbonne(): ?abonne
+    public function getUser(): ?User
     {
-        return $this->abonne;
+        return $this->user;
     }
 
-    public function setAbonne(abonne $abonne): self
+    public function setUser(User $user): self
     {
-        $this->abonne = $abonne;
+        $this->user = $user;
 
         return $this;
     }
