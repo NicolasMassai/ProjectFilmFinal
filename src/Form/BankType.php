@@ -13,8 +13,8 @@ class BankType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('account')
-            ->add('Ajouter',SubmitType::class)
+            //->add('account')
+            ->add('Acheter',SubmitType::class)
 
         ;
     }
