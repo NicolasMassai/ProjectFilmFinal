@@ -6,8 +6,6 @@ use App\Entity\Film;
 use App\Form\BankType;
 use App\Form\FilmType;
 use App\Service\Service;
-use App\Model\SearchData;
-use App\Entity\Producteur;
 use App\Repository\FilmRepository;
 use App\Repository\UserRepository;
 use App\Repository\ProducteurRepository;
@@ -16,8 +14,9 @@ use Symfony\Component\String\ByteString;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Notifier\Notification\Notification;
+use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FilmController extends AbstractController
@@ -97,7 +96,7 @@ class FilmController extends AbstractController
    
    #[Route('/film/buy/{film}', name: 'app_film_buy')]
    #[IsGranted("ROLE_USER")]
-   public function buy(Film $film, FilmRepository $filmrepository, ProducteurRepository $producteurrepository, Request $request): Response
+   public function buy(Film $film, FilmRepository $filmrepository, Request $request, NotifierInterface $notifier,): Response
    {
         $id = $film->getId();
         $film = $filmrepository->requete($id);
@@ -105,6 +104,12 @@ class FilmController extends AbstractController
         $user = $this->userRepository->find($this->getUser());
         $account = $user->getBank()->getAccount();
         $prix=($film[0]->getPrix());
+        if ($account<$prix){
+            $notifier->send(new Notification('Solde insuffisant', ['browser']));
+            return $this->redirectToRoute('app_bank');
+
+        }
+        else{
         $user->getBank()->setAccount(-$prix);
         $form = $this->createForm(BankType::class, $user->getBank());
         $form->handleRequest($request);
@@ -116,15 +121,18 @@ class FilmController extends AbstractController
 
                 return $this->redirectToRoute('app_home');
         }
+
+     
         return $this->render('bank/index.html.twig', [
             'form' => $form->createView()
         ]);
-       
+    }
    }
 
    
 
    #[Route('/film/menu', name: 'app_film_menu')]
+   #[IsGranted("ROLE_USER")]
    public function menu(): Response
    {
 
@@ -133,6 +141,7 @@ class FilmController extends AbstractController
    }
 
    #[Route('/film/action', name: 'app_film_action')]
+   #[IsGranted("ROLE_USER")]
    public function genre(FilmRepository $filmrepository): Response
    {
 
@@ -144,6 +153,7 @@ class FilmController extends AbstractController
    }
 
    #[Route('/film/comedie', name: 'app_film_comedie')]
+   #[IsGranted("ROLE_USER")]
    public function genre2(FilmRepository $filmrepository): Response
    {
 
@@ -155,6 +165,7 @@ class FilmController extends AbstractController
    }
 
    #[Route('/film/sf', name: 'app_film_sf')]
+   #[IsGranted("ROLE_USER")]
    public function genre3(FilmRepository $filmrepository): Response
    {
 
@@ -166,6 +177,7 @@ class FilmController extends AbstractController
    }
 
    #[Route('/film/thriller', name: 'app_film_thriller')]
+   #[IsGranted("ROLE_USER")]
    public function genre4(FilmRepository $filmrepository): Response
    {
 
@@ -177,6 +189,7 @@ class FilmController extends AbstractController
    }
 
    #[Route('/film/classement', name: 'app_film_classement')]
+   #[IsGranted("ROLE_USER")]
    public function classement(FilmRepository $filmrepository): Response
    {
 

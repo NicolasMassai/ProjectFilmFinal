@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Hello FilmController!{% endblock %}
 
 {% block body %}
@@ -33,10 +34,12 @@
             <li>Titre : {{film.nom}}</li>
             <li>Prix : {{film.prix}} €</li>
             <form action="{{ path('app_film_update', {"film": film.id}) }}" method="post">
-                <button type="submit">Modifier</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Modifier</button>
             </form>
+        </ul>
+        <ul>
             <form action="{{ path('app_film_id', {"film": film.id}) }}" method="post">
-                <button type="submit">Afficher Détails</button>
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Afficher Détails</button>
             </form>
             <br>
         </ul>
@@ -53,10 +56,13 @@
             <li>Titre : {{film.nom}}</li>
             <li>Prix : {{film.prix}} €</li>
             <form action="{{ path('app_film_id', {"film": film.id}) }}" method="post">
-                <button type="submit">Afficher Détails</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm">Afficher Détails</button>
             </form>
+            
+        </ul>
+        <ul>
             <form action="{{ path('app_film_buy', {"film": film.id}) }}" method="post">
-                <button type="submit">Acheter</button>
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Acheter</button>
             </form>
             <br>
         </ul>

@@ -8,8 +8,40 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper"><h1>Plateforme de Film</h1>
+<div class="example-wrapper">
+<h1>Plateforme de Film</h1>
 
+
+{% if is_granted('ROLE_ADMIN') %}
+<!--
+<nav>
+        <ul>
+        
+            <a href="{{ path('app_film') }}">Voir les Films</a>
+        </ul>
+    </nav>
+    
+
+    <nav>
+        <ul>
+            <a href="{{ path('app_film_classement') }}">Voir le Classement</a>
+        </ul>
+    </nav>
+
+    <nav>
+        <ul>
+            <a href="{{ path('app_film_menu') }}">Voir le Menu</a>
+        </ul>
+    </nav>
+-->
+
+{% endif  %}
+
+
+
+{% if is_granted('ROLE_ADMIN') == false %}
+
+<!--
     <nav>
         <ul>
         
@@ -32,8 +64,11 @@
 
     <nav>
         <a href="{{ path('app_bank') }}">Modifier mon solde</a>
-    </nav>
+    </nav>-->
         <h2>Solde : {{ user.bank.account }} €</h2>
+
+{% endif %}
+
 </div>
 
 {% endblock %}
